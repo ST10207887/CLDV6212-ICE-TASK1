@@ -1,0 +1,12 @@
+@model UniversityEnrolment.Models.Student
+@{
+    ViewData["Title"] = "Edit Student";
+    ViewData["IsEdit"] = true;
+}
+<h1>Edit @Model.StudentNumber</h1>
+<form asp-action="Edit" asp-route-id="@Model.StudentNumber" method="post" class="col-md-6">
+    <partial name="_StudentForm" model="Model" view-data="ViewData" />
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,14 @@
+@model UniversityEnrolment.Models.Course
+@{
+    ViewData["Title"] = Model.CourseCode;
+}
+<h1>@Model.CourseCode - @Model.Name</h1>
+<dl class="row">
+    <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@Model.Description</dd>
+    <dt class="col-sm-3">Instructor</dt><dd class="col-sm-9">@Model.Instructor</dd>
+    <dt class="col-sm-3">Credits</dt><dd class="col-sm-9">@Model.Credits</dd>
+    <dt class="col-sm-3">Enrolled</dt><dd class="col-sm-9">@Model.GetRoster().Count / @Model.Capacity</dd>
+</dl>
+<a asp-action="Roster" asp-route-id="@Model.CourseCode" class="btn btn-success">View roster</a>
+<a asp-action="Edit" asp-route-id="@Model.CourseCode" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-link">Back</a>

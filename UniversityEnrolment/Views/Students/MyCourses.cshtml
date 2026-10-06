@@ -1,0 +1,69 @@
+@model UniversityEnrolment.Models.ViewModels.StudentCoursesViewModel
+@{
+    ViewData["Title"] = "My Courses";
+}
+<h1>@Model.Student.FullName <small class="text-muted">(@Model.Student.StudentNumber)</small></h1>
+
+@if (Model.PendingQueueMessages > 0)
+{
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+        <span>@Model.PendingQueueMessages enrolment request(s) waiting in the queue. Refresh in a few seconds, or process them now.</span>
+        <form asp-controller="Home" asp-action="ProcessQueue" method="post">
+            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+            <button class="btn btn-sm btn-info">Process now</button>
+        </form>
+    </div>
+}
+
+<h3 class="mt-4">Enrolled courses</h3>
+<table class="table align-middle">
+    <thead><tr><th>Code</th><th>Name</th><th>Instructor</th><th>Credits</th><th></th></tr></thead>
+    <tbody>
+    @if (!Model.EnrolledCourses.Any())
+    {
+        <tr><td colspan="5" class="text-muted">Not enrolled in any courses yet.</td></tr>
+    }
+    @foreach (var c in Model.EnrolledCourses)
+    {
+        <tr>
+            <td>@c.CourseCode</td><td>@c.Name</td><td>@c.Instructor</td><td>@c.Credits</td>
+            <td class="text-end">
+                <form asp-action="Drop" asp-route-id="@Model.Student.StudentNumber" method="post">
+                    <input type="hidden" name="courseCode" value="@c.CourseCode" />
+                    <button class="btn btn-sm btn-outline-danger">Drop</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+    @if (Model.EnrolledCourses.Any())
+    {
+        <tfoot><tr><th colspan="3">Total credits</th><th>@Model.EnrolledCourses.Sum(c => c.Credits)</th><th></th></tr></tfoot>
+    }
+</table>
+
+<h3 class="mt-4">Available courses</h3>
+<table class="table align-middle">
+    <thead><tr><th>Code</th><th>Name</th><th>Instructor</th><th>Seats</th><th></th></tr></thead>
+    <tbody>
+    @if (!Model.AvailableCourses.Any())
+    {
+        <tr><td colspan="5" class="text-muted">No other courses available.</td></tr>
+    }
+    @foreach (var c in Model.AvailableCourses)
+    {
+        var full = c.GetRoster().Count >= c.Capacity;
+        <tr>
+            <td>@c.CourseCode</td><td>@c.Name</td><td>@c.Instructor</td>
+            <td>@(c.Capacity - c.GetRoster().Count) left</td>
+            <td class="text-end">
+                <form asp-action="Enroll" asp-route-id="@Model.Student.StudentNumber" method="post">
+                    <input type="hidden" name="courseCode" value="@c.CourseCode" />
+                    <button class="btn btn-sm btn-success" disabled="@full">@(full ? "Full" : "Enrol")</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-link">Back to students</a>

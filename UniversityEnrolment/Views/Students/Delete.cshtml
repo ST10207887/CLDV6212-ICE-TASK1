@@ -1,0 +1,10 @@
+@model UniversityEnrolment.Models.Student
+@{
+    ViewData["Title"] = "Delete Student";
+}
+<h1>Delete @Model.FullName?</h1>
+<p>Student @Model.StudentNumber will be removed from @Model.GetCourses().Count course roster(s).</p>
+<form asp-action="Delete" asp-route-id="@Model.StudentNumber" method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>

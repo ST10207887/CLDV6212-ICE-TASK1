@@ -1,0 +1,27 @@
+@model UniversityEnrolment.Models.Student
+@{
+    var isEdit = ViewData["IsEdit"] as bool? ?? false;
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3">
+    <label asp-for="StudentNumber" class="form-label"></label>
+    <input asp-for="StudentNumber" class="form-control" readonly="@isEdit" />
+    <span asp-validation-for="StudentNumber" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="col mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+</div>
+<div class="mb-3">
+    <label asp-for="Email" class="form-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>

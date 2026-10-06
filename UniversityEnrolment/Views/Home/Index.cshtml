@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<h1 class="mb-4">University Course Enrolment</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+            <h2>@ViewBag.CourseCount</h2><p class="mb-2">Courses (Courses table)</p>
+            <a asp-controller="Courses" asp-action="Index" class="btn btn-outline-primary btn-sm">View courses</a>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+            <h2>@ViewBag.StudentCount</h2><p class="mb-2">Students (Students table)</p>
+            <a asp-controller="Students" asp-action="Index" class="btn btn-outline-primary btn-sm">View students</a>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+            <h2>@ViewBag.QueueCount</h2><p class="mb-2">Pending messages (CourseEnrollmentQueue)</p>
+            <form asp-action="ProcessQueue" method="post">
+                <button class="btn btn-outline-success btn-sm">Process queue now</button>
+            </form>
+        </div></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5>How it works</h5>
+        <ol class="mb-0">
+            <li><strong>Students</strong> open <em>Students &rarr; My Courses</em> to view available courses and enrol.</li>
+            <li>Each enrolment is sent as a JSON message to the <code>courseenrollmentqueue</code> queue.</li>
+            <li>A background worker reads the queue every few seconds and updates the student's enrolled courses and the course roster in Table storage.</li>
+            <li><strong>Instructors</strong> open <em>Courses &rarr; Roster</em> to view enrolled students and add or remove students.</li>
+        </ol>
+    </div>
+</div>

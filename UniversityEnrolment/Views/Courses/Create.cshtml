@@ -1,0 +1,11 @@
+@model UniversityEnrolment.Models.Course
+@{
+    ViewData["Title"] = "Add Course";
+}
+<h1>Add Course</h1>
+<form asp-action="Create" method="post" class="col-md-6">
+    <partial name="_CourseForm" model="Model" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
